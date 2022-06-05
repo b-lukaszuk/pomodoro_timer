@@ -1,0 +1,8 @@
+.checkbox input[type=checkbox]{
+    transform: scale(1.5);
+    margin: 1em;
+}
+
+.checkbox input[type=checkbox]:hover{
+    cursor: pointer;
+}
