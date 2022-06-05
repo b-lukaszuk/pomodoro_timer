@@ -1,6 +1,7 @@
 import React, { ReactElement, useEffect, useRef } from "react";
 
-import drawClock from "./draw/drawTime";
+import drawClock from "./draw/drawClock";
+import drawTimer from "./draw/drawTimer";
 import setCanvasDefaults from "./setCanvasDefaults";
 
 import "./Canvas.css"
@@ -10,6 +11,9 @@ interface Props {
     mins: number;
     secs: number;
     displayClock: boolean;
+    timerStartMins: number;
+    timerLeftMins: number;
+    timerOn: boolean;
 }
 
 const Canvas: React.FC<Props> = (props): ReactElement<HTMLElement> => {
@@ -18,6 +22,9 @@ const Canvas: React.FC<Props> = (props): ReactElement<HTMLElement> => {
     const mins: number = props.mins;
     const secs: number = props.secs;
     const displayClock: boolean = props.displayClock;
+    const timerStartMins: number = props.timerStartMins;
+    const timerLeftMins: number = props.timerLeftMins;
+    const timerOn: boolean = props.timerOn;
 
     useEffect(() => {
         const canvas: HTMLCanvasElement | null = canvasRef.current;
@@ -29,11 +36,14 @@ const Canvas: React.FC<Props> = (props): ReactElement<HTMLElement> => {
         if (ctx === null) {
             return undefined;
         }
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
         if (displayClock) {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
             drawClock(canvas, ctx, hrs, mins, secs, 250, 250);
         }
-    }, [hrs, mins, secs, displayClock]);
+        if (timerOn) {
+            drawTimer(canvas, ctx, timerStartMins, timerLeftMins);
+        }
+    }, [hrs, mins, secs, displayClock, timerStartMins, timerLeftMins, timerOn]);
 
     return (
         <div>

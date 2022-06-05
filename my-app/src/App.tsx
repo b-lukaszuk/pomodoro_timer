@@ -1,9 +1,11 @@
 import React, { ReactElement, useEffect, useState } from 'react';
 
+import Button from "./components/Button";
 import Canvas from "./components/canvas/Canvas";
 import Checkbox from "./components/Checkbox";
 import getCurTime from "./utils/getCurTime";
 import ITime from "./interfaces/ITime";
+import TextInput from "./components/TextInput";
 
 import './App.css';
 
@@ -13,9 +15,49 @@ const App: React.FC = (): ReactElement<HTMLElement> => {
     const [mins, setMins]: [number, Function] = useState(getCurTime().mins);
     const [secs, setSecs]: [number, Function] = useState(getCurTime().secs);
     const [displClock, setDisplClock]: [boolean, Function] = useState(true);
+    const [timerMins, setTimerMins]: [number, Function] = useState(20);
+    const [minsLeft, setMinsLeft]: [number, Function] = useState(20);
+    const [displTimer, setDisplTimer]: [boolean, Function] = useState(false);
+    const [timerInput, setTimerInput]: [string, Function] = useState("");
+    const [isTimerOn, setIsTimerOn]: [boolean, Function] = useState(false);
 
     const toggleDisplClock = (): void => {
         setDisplClock((prevState: boolean) => !prevState);
+    };
+
+    const toggleDisplTimer = (): void => {
+        setDisplTimer((prevState: boolean) => !prevState);
+    };
+
+    const isBetween = (anInt: number,
+        minIncl: number, maxIncl: number): boolean => {
+        return (anInt >= minIncl) && (anInt <= maxIncl);
+    }
+
+    const isInputCorrect = (text: string): boolean => {
+        let pattern: RegExp = /[^0-9]/;
+        let onlyDigits: boolean = !pattern.test(text)
+        return onlyDigits && isBetween(parseInt(text), 1, 1440);
+    }
+
+    const handleTypingDigits = (
+        event: React.ChangeEvent<HTMLInputElement>
+    ): void => {
+        setTimerInput(event.target.value);
+    };
+
+    const startTimer = (): void => {
+        if (isInputCorrect(timerInput)) {
+            setTimerMins(parseFloat(timerInput));
+            setMinsLeft(parseFloat(timerInput));
+            setIsTimerOn(true);
+        } else {
+            window.alert("Incorrect input. Change it and try again");
+        }
+    }
+
+    const stopTimer = (): void => {
+        setIsTimerOn(false);
     }
 
     useEffect(() => {
@@ -24,6 +66,9 @@ const App: React.FC = (): ReactElement<HTMLElement> => {
             setHrs(time.hrs);
             setMins(time.mins);
             setSecs(time.secs);
+            if (minsLeft > 0) {
+                setMinsLeft((prevMinsLeft: number) => prevMinsLeft - 1 / 60);
+            }
         }
 
         let timerId1 = setInterval(() => {
@@ -32,14 +77,31 @@ const App: React.FC = (): ReactElement<HTMLElement> => {
         return () => {
             clearInterval(timerId1);
         }
-    }, [hrs, mins, secs]);
+    }, [hrs, mins, secs, minsLeft]);
 
     return (
         <div className="App">
             <h1>Pomodoro Timer</h1>
             <Checkbox name="clock" displayedText={"show clock"}
                 checked={displClock} onClick={toggleDisplClock} />
-            <Canvas hrs={hrs} mins={mins} secs={secs} displayClock={displClock} />
+            <Checkbox name="timer" displayedText={"show timer"}
+                checked={displTimer} onClick={toggleDisplTimer} />
+            {displTimer &&
+                <TextInput name={"timerInput"}
+                    label={"type minutes (1-1440)"}
+                    pattern={"[1-9][0-9]{0,3}"}
+                    placeholder="20"
+                    value={timerInput}
+                    changeHandler={handleTypingDigits}
+                />}
+            {displTimer &&
+                <Button displText={"start timer"}
+                    onClick={startTimer} />}
+            {displTimer &&
+                <Button displText={"stop timer"}
+                    onClick={stopTimer} />}
+            <Canvas hrs={hrs} mins={mins} secs={secs} displayClock={displClock}
+                timerStartMins={timerMins} timerLeftMins={minsLeft} timerOn={isTimerOn} />
         </div>
     );
 }
