@@ -1,14 +1,7 @@
 import drawPieceOfPie from "./drawPieceOfPie";
 import numsToDeg from "../../../utils/numToDeg";
+import { formatTime } from "../../../utils/format";
 
-function formatDigit(anInt: number) {
-    let result: string = anInt.toString();
-    return result.length === 1 ? ("0" + result) : result;
-}
-
-function formatTime(hrs: number, mins: number, secs: number): string {
-    return `${formatDigit(hrs)}:${formatDigit(mins)}:${formatDigit(secs)}`;
-}
 
 function drawHrs(ctx: CanvasRenderingContext2D, hrs: number,
     xMid: number, yMid: number): void {
