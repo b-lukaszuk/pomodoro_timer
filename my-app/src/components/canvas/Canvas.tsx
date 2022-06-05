@@ -1,16 +1,21 @@
 import React, { ReactElement, useEffect, useRef } from "react";
 
+import drawClock from "./draw/drawTime";
 import setCanvasDefaults from "./setCanvasDefaults";
 
 import "./Canvas.css"
 
 interface Props {
-    greeting: string;
+    hrs: number;
+    mins: number;
+    secs: number;
 }
 
 const Canvas: React.FC<Props> = (props): ReactElement<HTMLElement> => {
     const canvasRef = useRef<HTMLCanvasElement | null>(null);
-    const greeting: string = props.greeting;
+    const hrs: number = props.hrs;
+    const mins: number = props.mins;
+    const secs: number = props.secs;
 
     useEffect(() => {
         const canvas: HTMLCanvasElement | null = canvasRef.current;
@@ -22,9 +27,9 @@ const Canvas: React.FC<Props> = (props): ReactElement<HTMLElement> => {
         if (ctx === null) {
             return undefined;
         }
-        console.log("Canvas.tsx received the following message");
-        console.log(greeting);
-    }, [greeting]);
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        drawClock(canvas, ctx, hrs, mins, secs, 250, 250);
+    }, [hrs, mins, secs]);
 
     return (
         <div>
