@@ -9,6 +9,7 @@ interface Props {
     hrs: number;
     mins: number;
     secs: number;
+    displayClock: boolean;
 }
 
 const Canvas: React.FC<Props> = (props): ReactElement<HTMLElement> => {
@@ -16,6 +17,7 @@ const Canvas: React.FC<Props> = (props): ReactElement<HTMLElement> => {
     const hrs: number = props.hrs;
     const mins: number = props.mins;
     const secs: number = props.secs;
+    const displayClock: boolean = props.displayClock;
 
     useEffect(() => {
         const canvas: HTMLCanvasElement | null = canvasRef.current;
@@ -27,9 +29,11 @@ const Canvas: React.FC<Props> = (props): ReactElement<HTMLElement> => {
         if (ctx === null) {
             return undefined;
         }
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        drawClock(canvas, ctx, hrs, mins, secs, 250, 250);
-    }, [hrs, mins, secs]);
+        if (displayClock) {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            drawClock(canvas, ctx, hrs, mins, secs, 250, 250);
+        }
+    }, [hrs, mins, secs, displayClock]);
 
     return (
         <div>
