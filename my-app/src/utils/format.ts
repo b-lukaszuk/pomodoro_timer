@@ -1,5 +1,5 @@
 function formatDigit(anInt: number) {
-    let result: string = anInt.toString();
+    let result: string = (anInt < 0) ? "00" : anInt.toString();
     return result.length === 1 ? ("0" + result) : result;
 }
 

@@ -1,9 +1,7 @@
 import drawArc from "./drawArc";
 import { formatTime } from "../../../utils/format";
-import numsToDeg from "../../../utils/numToDeg";
 import minsToHrMinsSecs from "../../../utils/minsToHrsMinsSecs";
 import ITime from "../../../interfaces/ITime";
-import degreeToRadian from "../../../utils/degreeToRadian";
 
 function drawTimer(canv: HTMLCanvasElement, ctx: CanvasRenderingContext2D,
     minsStart: number, minsLeft: number): void {
@@ -18,7 +16,7 @@ function drawTimer(canv: HTMLCanvasElement, ctx: CanvasRenderingContext2D,
     ctx.font = `${fontSize}px Arial`;
     ctx.textAlign = "center";
     ctx.textBaseline = "middle";
-    ctx.fillStyle = (minsLeft === 0) ? "red" : "grey";
+    ctx.fillStyle = (minsLeft <= 0) ? "red" : "grey";
     ctx.fillText(formatTime(time.hrs, time.mins, time.secs), (canv.width / 2),
         (canv.height - fontSize));
 
