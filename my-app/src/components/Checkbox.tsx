@@ -19,8 +19,8 @@ const Checkbox: React.FC<Props> = (props): ReactElement<HTMLElement> => {
     return (
         <div className="checkbox">
             <input type="checkbox" name={name} checked={checked}
-                onClick={() => onClick()} />
-            <label htmlFor={name} onClick={() => onClick()}>{displayedText}</label>
+                onChange={() => onClick()} />
+            <label htmlFor={name} >{displayedText}</label>
         </div>
     )
 }
