@@ -1,8 +1,12 @@
-.checkbox input[type=checkbox]{
+.checkbox input[type=checkbox] {
     transform: scale(1.5);
     margin: 1em;
 }
 
-.checkbox input[type=checkbox]:hover{
+.checkbox input[type=checkbox]:hover {
     cursor: pointer;
+}
+
+.checkbox label {
+    font-size: 1.3em;
 }
