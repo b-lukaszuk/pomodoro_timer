@@ -12,7 +12,7 @@ interface Props {
     label: string;
     pattern?: string;
     placeholder?: string;
-    value: number;
+    value: string;
 }
 
 const InputElt: React.FC<Props> = (props): ReactElement<HTMLInputElement> => {
@@ -21,7 +21,7 @@ const InputElt: React.FC<Props> = (props): ReactElement<HTMLInputElement> => {
     const labelIn: string = props.label;
     const patternIn: string = props.pattern ? props.pattern : ".*";
     const placeholderIn: string = props.placeholder ? props.placeholder : "";
-    const valueIn: number = props.value;
+    const valueIn: string = props.value;
 
     return (
         <div>
