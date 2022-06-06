@@ -102,9 +102,15 @@ const App: React.FC = (): ReactElement<HTMLElement> => {
             {displTimer && isTimerOn &&
                 <Button displText={"stop timer"}
                     onClick={stopTimer} />}
-            <Canvas hrs={hrs} mins={mins} secs={secs} displayClock={displClock}
-                timerStartSecs={timerSecs} timerLeftSecs={secsLeft}
-                displayTimer={displTimer} />
+            {
+                (displClock || displTimer) &&
+                <Canvas hrs={hrs} mins={mins} secs={secs} displayClock={displClock}
+                    timerStartSecs={timerSecs} timerLeftSecs={secsLeft}
+                    displayTimer={displTimer} />
+            }
+            {!displClock && !displTimer &&
+                <h2>Nothing to display. Really?</h2>
+            }
         </div>
     );
 }
