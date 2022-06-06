@@ -86,7 +86,7 @@ const App: React.FC = (): ReactElement<HTMLElement> => {
                 checked={displClock} onClick={toggleDisplClock} />
             <Checkbox name="timer" displayedText={"show timer"}
                 checked={displTimer} onClick={toggleDisplTimer} />
-            {displTimer &&
+            {displTimer && !isTimerOn &&
                 <TextInput name={"timerInput"}
                     label={"type minutes (1-1440)"}
                     pattern={"[1-9][0-9]{0,3}"}
@@ -94,10 +94,10 @@ const App: React.FC = (): ReactElement<HTMLElement> => {
                     value={timerInput}
                     changeHandler={handleTypingDigits}
                 />}
-            {displTimer &&
+            {displTimer && !isTimerOn &&
                 <Button displText={"start timer"}
                     onClick={startTimer} />}
-            {displTimer &&
+            {displTimer && isTimerOn &&
                 <Button displText={"stop timer"}
                     onClick={stopTimer} />}
             <Canvas hrs={hrs} mins={mins} secs={secs} displayClock={displClock}
