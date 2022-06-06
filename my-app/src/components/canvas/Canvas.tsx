@@ -41,7 +41,7 @@ const Canvas: React.FC<Props> = (props): ReactElement<HTMLElement> => {
             drawClock(canvas, ctx, hrs, mins, secs, 250, 250);
         }
         if (displayTimer) {
-            drawTimer(canvas, ctx, timerStartSecs, timerLeftSecs);
+            drawTimer(canvas, ctx, timerStartSecs, timerLeftSecs, displayClock);
         }
     }, [hrs, mins, secs, displayClock, timerStartSecs, timerLeftSecs, displayTimer]);
 
