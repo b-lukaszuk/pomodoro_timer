@@ -77,6 +77,7 @@ const App: React.FC = (): ReactElement<HTMLElement> => {
                 setSecsLeft((prevSecsLeft: number) => prevSecsLeft - 1);
             } else {
                 setIsTimerOn(false);
+                setTimerSecsStart(0);
             }
         }
 
@@ -94,7 +95,6 @@ const App: React.FC = (): ReactElement<HTMLElement> => {
         if (!isTimerOn && alarmAtEnd &&
             (timerSecsStart !== 0) && (secsLeft === 0)) {
             soundToPlay.play();
-            setTimerSecsStart(0);
         }
         const timerId2 = setTimeout(() => {
             soundToPlay.pause();
