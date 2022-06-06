@@ -83,6 +83,10 @@ const App: React.FC = (): ReactElement<HTMLElement> => {
         }
     }, [hrs, mins, secs, secsLeft, isTimerOn]);
 
+    useEffect(() => {
+        document.title = "Pomodoro Timer";
+    }, [])
+
     return (
         <div className="App">
             <h1>Pomodoro Timer</h1>
