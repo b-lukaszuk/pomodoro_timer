@@ -15,8 +15,8 @@ const App: React.FC = (): ReactElement<HTMLElement> => {
     const [mins, setMins]: [number, Function] = useState(getCurTime().mins);
     const [secs, setSecs]: [number, Function] = useState(getCurTime().secs);
     const [displClock, setDisplClock]: [boolean, Function] = useState(true);
-    const [timerMins, setTimerMins]: [number, Function] = useState(20);
-    const [minsLeft, setMinsLeft]: [number, Function] = useState(20);
+    const [timerSecs, setTimerSecs]: [number, Function] = useState(120);
+    const [secsLeft, setSecsLeft]: [number, Function] = useState(120);
     const [displTimer, setDisplTimer]: [boolean, Function] = useState(false);
     const [timerInput, setTimerInput]: [string, Function] = useState("");
     const [isTimerOn, setIsTimerOn]: [boolean, Function] = useState(false);
@@ -48,8 +48,8 @@ const App: React.FC = (): ReactElement<HTMLElement> => {
 
     const startTimer = (): void => {
         if (isInputCorrect(timerInput)) {
-            setTimerMins(parseFloat(timerInput));
-            setMinsLeft(parseFloat(timerInput));
+            setTimerSecs(parseInt(timerInput) * 60);
+            setSecsLeft(parseFloat(timerInput) * 60);
             setIsTimerOn(true);
         } else {
             window.alert("Incorrect input. Change it and try again");
@@ -66,8 +66,8 @@ const App: React.FC = (): ReactElement<HTMLElement> => {
             setHrs(time.hrs);
             setMins(time.mins);
             setSecs(time.secs);
-            if (minsLeft > 0) {
-                setMinsLeft((prevMinsLeft: number) => prevMinsLeft - 1 / 60);
+            if (secsLeft > 0) {
+                setSecsLeft((prevSecsLeft: number) => prevSecsLeft - 1);
             }
         }
 
@@ -77,7 +77,7 @@ const App: React.FC = (): ReactElement<HTMLElement> => {
         return () => {
             clearInterval(timerId1);
         }
-    }, [hrs, mins, secs, minsLeft]);
+    }, [hrs, mins, secs, secsLeft]);
 
     return (
         <div className="App">
@@ -101,7 +101,7 @@ const App: React.FC = (): ReactElement<HTMLElement> => {
                 <Button displText={"stop timer"}
                     onClick={stopTimer} />}
             <Canvas hrs={hrs} mins={mins} secs={secs} displayClock={displClock}
-                timerStartMins={timerMins} timerLeftMins={minsLeft} timerOn={isTimerOn} />
+                timerStartSecs={timerSecs} timerLeftSecs={secsLeft} timerOn={isTimerOn} />
         </div>
     );
 }
