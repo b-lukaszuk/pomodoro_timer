@@ -11,15 +11,15 @@ function drawTimer(canv: HTMLCanvasElement, ctx: CanvasRenderingContext2D,
     displDigitsAtBottom: boolean = true): void {
 
     let time: ITime = secsToHrMinsSecs(secsLeft);
-    let color: string = (secsLeft <= 0) ? "red" : "grey";
+    let color: string = (secsLeft <= 0) ? "red" : "dimgray";
 
-    drawArc(ctx, canv.height / 2, canv.width / 2, 240, 360, 10, "lightgrey");
+    drawArc(ctx, canv.height / 2, canv.width / 2, 240, 360, 10, "lightgray");
     drawArc(ctx, canv.height / 2, canv.width / 2, 240,
         360 * (1 - secsLeft / secsStart), 10, "red");
 
     if (!displDigitsAtBottom) {
         drawPieceOfPie(ctx, canv.height / 2, canv.width / 2, 200, 0,
-            numsToDeg(secsStart - secsLeft, 60), "rgba(255, 0, 0, 0.1)");
+            numsToDeg(secsStart - secsLeft, 60), "rgba(255, 0, 0, 0.3)");
     }
 
     drawText(canv, ctx, formatTime(time.hrs, time.mins, time.secs),
