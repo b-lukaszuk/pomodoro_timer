@@ -15,8 +15,8 @@ const App: React.FC = (): ReactElement<HTMLElement> => {
     const [mins, setMins]: [number, Function] = useState(getCurTime().mins);
     const [secs, setSecs]: [number, Function] = useState(getCurTime().secs);
     const [displClock, setDisplClock]: [boolean, Function] = useState(true);
-    const [timerSecs, setTimerSecs]: [number, Function] = useState(120);
-    const [secsLeft, setSecsLeft]: [number, Function] = useState(120);
+    const [timerSecs, setTimerSecs]: [number, Function] = useState(0);
+    const [secsLeft, setSecsLeft]: [number, Function] = useState(0);
     const [displTimer, setDisplTimer]: [boolean, Function] = useState(false);
     const [timerInput, setTimerInput]: [string, Function] = useState("");
     const [isTimerOn, setIsTimerOn]: [boolean, Function] = useState(false);
@@ -66,8 +66,10 @@ const App: React.FC = (): ReactElement<HTMLElement> => {
             setHrs(time.hrs);
             setMins(time.mins);
             setSecs(time.secs);
-            if (secsLeft > 0) {
+            if (isTimerOn && secsLeft > 0) {
                 setSecsLeft((prevSecsLeft: number) => prevSecsLeft - 1);
+            } else {
+                setIsTimerOn(false);
             }
         }
 
@@ -77,7 +79,7 @@ const App: React.FC = (): ReactElement<HTMLElement> => {
         return () => {
             clearInterval(timerId1);
         }
-    }, [hrs, mins, secs, secsLeft]);
+    }, [hrs, mins, secs, secsLeft, isTimerOn]);
 
     return (
         <div className="App">
@@ -101,7 +103,8 @@ const App: React.FC = (): ReactElement<HTMLElement> => {
                 <Button displText={"stop timer"}
                     onClick={stopTimer} />}
             <Canvas hrs={hrs} mins={mins} secs={secs} displayClock={displClock}
-                timerStartSecs={timerSecs} timerLeftSecs={secsLeft} timerOn={isTimerOn} />
+                timerStartSecs={timerSecs} timerLeftSecs={secsLeft}
+                displayTimer={displTimer} />
         </div>
     );
 }

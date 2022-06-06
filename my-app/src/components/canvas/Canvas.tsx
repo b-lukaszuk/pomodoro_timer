@@ -13,7 +13,7 @@ interface Props {
     displayClock: boolean;
     timerStartSecs: number;
     timerLeftSecs: number;
-    timerOn: boolean;
+    displayTimer: boolean;
 }
 
 const Canvas: React.FC<Props> = (props): ReactElement<HTMLElement> => {
@@ -24,7 +24,7 @@ const Canvas: React.FC<Props> = (props): ReactElement<HTMLElement> => {
     const displayClock: boolean = props.displayClock;
     const timerStartSecs: number = props.timerStartSecs;
     const timerLeftSecs: number = props.timerLeftSecs;
-    const timerOn: boolean = props.timerOn;
+    const displayTimer: boolean = props.displayTimer;
 
     useEffect(() => {
         const canvas: HTMLCanvasElement | null = canvasRef.current;
@@ -40,10 +40,10 @@ const Canvas: React.FC<Props> = (props): ReactElement<HTMLElement> => {
         if (displayClock) {
             drawClock(canvas, ctx, hrs, mins, secs, 250, 250);
         }
-        if (timerOn) {
+        if (displayTimer) {
             drawTimer(canvas, ctx, timerStartSecs, timerLeftSecs);
         }
-    }, [hrs, mins, secs, displayClock, timerStartSecs, timerLeftSecs, timerOn]);
+    }, [hrs, mins, secs, displayClock, timerStartSecs, timerLeftSecs, displayTimer]);
 
     return (
         <div>
