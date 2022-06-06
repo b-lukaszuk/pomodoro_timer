@@ -24,7 +24,7 @@ const InputElt: React.FC<Props> = (props): ReactElement<HTMLInputElement> => {
     const valueIn: string = props.value;
 
     return (
-        <div>
+        <div className="textInput">
             <span>{labelIn}: &nbsp;</span>
             <input name={nameIn} type="text"
                 pattern={patternIn} placeholder={placeholderIn}
