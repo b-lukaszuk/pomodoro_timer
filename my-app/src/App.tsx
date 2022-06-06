@@ -11,11 +11,13 @@ import './App.css';
 
 const App: React.FC = (): ReactElement<HTMLElement> => {
 
+    // clock
     const [hrs, setHrs]: [number, Function] = useState(getCurTime().hrs);
     const [mins, setMins]: [number, Function] = useState(getCurTime().mins);
     const [secs, setSecs]: [number, Function] = useState(getCurTime().secs);
     const [displClock, setDisplClock]: [boolean, Function] = useState(true);
-    const [timerSecs, setTimerSecs]: [number, Function] = useState(0);
+    // timer
+    const [timerSecsStart, setTimerSecsStart]: [number, Function] = useState(0);
     const [secsLeft, setSecsLeft]: [number, Function] = useState(0);
     const [displTimer, setDisplTimer]: [boolean, Function] = useState(false);
     const [timerInput, setTimerInput]: [string, Function] = useState("");
@@ -48,8 +50,8 @@ const App: React.FC = (): ReactElement<HTMLElement> => {
 
     const startTimer = (): void => {
         if (isInputCorrect(timerInput)) {
-            setTimerSecs(parseInt(timerInput) * 60);
-            setSecsLeft(parseFloat(timerInput) * 60);
+            setTimerSecsStart(parseInt(timerInput) * 60);
+            setSecsLeft(parseInt(timerInput) * 60);
             setIsTimerOn(true);
         } else {
             window.alert("Incorrect input. Change it and try again");
@@ -105,7 +107,7 @@ const App: React.FC = (): ReactElement<HTMLElement> => {
             {
                 (displClock || displTimer) &&
                 <Canvas hrs={hrs} mins={mins} secs={secs} displayClock={displClock}
-                    timerStartSecs={timerSecs} timerLeftSecs={secsLeft}
+                    timerStartSecs={timerSecsStart} timerLeftSecs={secsLeft}
                     displayTimer={displTimer} />
             }
             {!displClock && !displTimer &&
