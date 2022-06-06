@@ -91,14 +91,14 @@ const App: React.FC = (): ReactElement<HTMLElement> => {
     useEffect(() => {
         let soundToPlay: HTMLAudioElement = new Audio(
             "https://actions.google.com/sounds/v1/alarms/bugle_tune.ogg");
+        if (!isTimerOn && alarmAtEnd &&
+            (timerSecsStart !== 0) && (secsLeft === 0)) {
+            soundToPlay.play();
+            setTimerSecsStart(0);
+        }
         const timerId2 = setTimeout(() => {
-            if (!isTimerOn && alarmAtEnd &&
-                (timerSecsStart !== 0) && (secsLeft === 0)) {
-                soundToPlay.play();
-                setTimerSecsStart(0);
-            }
+            soundToPlay.pause();
         }, 3000);
-        soundToPlay.pause();
         return () => clearTimeout(timerId2);
     }, [alarmAtEnd, isTimerOn, secsLeft, timerSecsStart]);
 
