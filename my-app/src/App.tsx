@@ -90,7 +90,7 @@ const App: React.FC = (): ReactElement<HTMLElement> => {
                 checked={displTimer} onClick={toggleDisplTimer} />
             {displTimer && !isTimerOn &&
                 <TextInput name={"timerInput"}
-                    label={"type minutes (1-1440)"}
+                    label={"Time in minutes (integer, 1-1440)"}
                     pattern={"[1-9][0-9]{0,3}"}
                     placeholder="20"
                     value={timerInput}
