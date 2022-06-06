@@ -22,6 +22,7 @@ const App: React.FC = (): ReactElement<HTMLElement> => {
     const [displTimer, setDisplTimer]: [boolean, Function] = useState(false);
     const [timerInput, setTimerInput]: [string, Function] = useState("");
     const [isTimerOn, setIsTimerOn]: [boolean, Function] = useState(false);
+    const [alarmAtEnd, setAlarmAtEnd]: [boolean, Function] = useState(true);
 
     const toggleDisplClock = (): void => {
         setDisplClock((prevState: boolean) => !prevState);
@@ -30,6 +31,10 @@ const App: React.FC = (): ReactElement<HTMLElement> => {
     const toggleDisplTimer = (): void => {
         setDisplTimer((prevState: boolean) => !prevState);
     };
+
+    const toggleAlarmAtEnd = (): void => {
+        setAlarmAtEnd((prevState: boolean) => !prevState);
+    }
 
     const isBetween = (anInt: number,
         minIncl: number, maxIncl: number): boolean => {
@@ -84,6 +89,20 @@ const App: React.FC = (): ReactElement<HTMLElement> => {
     }, [hrs, mins, secs, secsLeft, isTimerOn]);
 
     useEffect(() => {
+        let soundToPlay: HTMLAudioElement = new Audio(
+            "https://actions.google.com/sounds/v1/alarms/bugle_tune.ogg");
+        const timerId2 = setTimeout(() => {
+            if (!isTimerOn && alarmAtEnd &&
+                (timerSecsStart !== 0) && (secsLeft === 0)) {
+                soundToPlay.play();
+                setTimerSecsStart(0);
+            }
+        }, 3000);
+        soundToPlay.pause();
+        return () => clearTimeout(timerId2);
+    }, [alarmAtEnd, isTimerOn, secsLeft, timerSecsStart]);
+
+    useEffect(() => {
         document.title = "Pomodoro Timer";
     }, [])
 
@@ -102,6 +121,9 @@ const App: React.FC = (): ReactElement<HTMLElement> => {
                     value={timerInput}
                     changeHandler={handleTypingDigits}
                 />}
+            {displTimer && !isTimerOn &&
+                <Checkbox name="alarmSound" displayedText={"play alarm sound at end"}
+                    checked={alarmAtEnd} onClick={toggleAlarmAtEnd} />}
             {displTimer && !isTimerOn &&
                 <Button displText={"start timer"}
                     onClick={startTimer} />}
