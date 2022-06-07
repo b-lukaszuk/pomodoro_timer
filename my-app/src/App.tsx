@@ -12,6 +12,7 @@ import './App.css';
 const App: React.FC = (): ReactElement<HTMLElement> => {
 
     // clock
+    const delayMs: number = 1000;
     const [hrs, setHrs]: [number, Function] = useState(getCurTime().hrs);
     const [mins, setMins]: [number, Function] = useState(getCurTime().mins);
     const [secs, setSecs]: [number, Function] = useState(getCurTime().secs);
@@ -83,7 +84,7 @@ const App: React.FC = (): ReactElement<HTMLElement> => {
 
         let timerId1 = setInterval(() => {
             updateTime();
-        }, 1000);
+        }, delayMs);
         return () => {
             clearInterval(timerId1);
         }
