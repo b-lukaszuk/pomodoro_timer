@@ -82,11 +82,11 @@ const App: React.FC = (): ReactElement<HTMLElement> => {
             }
         }
 
-        let timerId1 = setInterval(() => {
+        let timerId1 = setTimeout(() => {
             updateTime();
         }, delayMs);
         return () => {
-            clearInterval(timerId1);
+            clearTimeout(timerId1);
         }
     }, [hrs, mins, secs, secsLeft, isTimerOn]);
 
