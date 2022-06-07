@@ -11,9 +11,10 @@ function drawTimer(canv: HTMLCanvasElement, ctx: CanvasRenderingContext2D,
     displDigitsAtBottom: boolean = true): void {
 
     let time: ITime = secsToHrMinsSecs(secsLeft);
-    let color: string = (secsLeft <= 0) ? "red" : "dimgray";
+    let colorFont: string = (secsLeft <= 0) ? "red" : "dimgray";
+    let colorMainPath: string = (secsLeft <= 0) ? "red" : "dimgray";
 
-    drawArc(ctx, canv.height / 2, canv.width / 2, 240, 360, 10, "silver");
+    drawArc(ctx, canv.height / 2, canv.width / 2, 240, 360, 10, colorMainPath);
     drawArc(ctx, canv.height / 2, canv.width / 2, 240,
         360 * (1 - secsLeft / secsStart), 10, "red");
 
@@ -23,7 +24,7 @@ function drawTimer(canv: HTMLCanvasElement, ctx: CanvasRenderingContext2D,
     }
 
     drawText(canv, ctx, formatTime(time.hrs, time.mins, time.secs),
-        color, displDigitsAtBottom);
+        colorFont, displDigitsAtBottom);
 
 }
 
