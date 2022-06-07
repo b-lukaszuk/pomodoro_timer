@@ -12,7 +12,9 @@ import './App.css';
 const App: React.FC = (): ReactElement<HTMLElement> => {
 
     // clock
-    const delayMs: number = 1000;
+    // js is (pseudo)asynchronous, since e.g. drawing operations are blocking
+    // the main thread a bit, so correction is in order
+    const delayMs: number = 980; // for now it is hardcoded
     const [hrs, setHrs]: [number, Function] = useState(getCurTime().hrs);
     const [mins, setMins]: [number, Function] = useState(getCurTime().mins);
     const [secs, setSecs]: [number, Function] = useState(getCurTime().secs);
@@ -45,7 +47,7 @@ const App: React.FC = (): ReactElement<HTMLElement> => {
     const isInputCorrect = (text: string): boolean => {
         let pattern: RegExp = /[^0-9]/;
         let onlyDigits: boolean = !pattern.test(text)
-        return onlyDigits && isBetween(parseInt(text), 1, 1440);
+        return onlyDigits && isBetween(parseInt(text), 1, 300);
     }
 
     const handleTypingDigits = (
@@ -116,7 +118,7 @@ const App: React.FC = (): ReactElement<HTMLElement> => {
                 checked={displTimer} onClick={toggleDisplTimer} />
             {displTimer && !isTimerOn &&
                 <TextInput name={"timerInput"}
-                    label={"Time in minutes (integer, 1-1440)"}
+                    label={"Time in minutes (integer, 1-300)"}
                     pattern={"[1-9][0-9]{0,3}"}
                     placeholder="20"
                     value={timerInput}
