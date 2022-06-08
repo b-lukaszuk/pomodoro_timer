@@ -147,7 +147,7 @@ const App: React.FC = (): ReactElement<HTMLElement> => {
             {!displClock && !displTimer &&
                 <h2>Nothing to display. Really?</h2>
             }
-            <p>The timer is not recommended when precise time measurement is required</p>
+            <p>This App should not be used when precise time measurement is required</p>
         </div>
     );
 }
