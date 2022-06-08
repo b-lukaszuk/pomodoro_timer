@@ -11,8 +11,9 @@ interface Props {
     mins: number;
     secs: number;
     displayClock: boolean;
-    timerStartSecs: number;
-    timerLeftSecs: number;
+    timerStartMs: number;
+    timerEndMs: number;
+    timerNowMs: number;
     displayTimer: boolean;
 }
 
@@ -22,8 +23,9 @@ const Canvas: React.FC<Props> = (props): ReactElement<HTMLElement> => {
     const mins: number = props.mins;
     const secs: number = props.secs;
     const displayClock: boolean = props.displayClock;
-    const timerStartSecs: number = props.timerStartSecs;
-    const timerLeftSecs: number = props.timerLeftSecs;
+    const timerStartMs: number = props.timerStartMs;
+    const timerEndMs: number = props.timerEndMs;
+    const timerNowMs: number = props.timerNowMs;
     const displayTimer: boolean = props.displayTimer;
 
     useEffect(() => {
@@ -41,9 +43,10 @@ const Canvas: React.FC<Props> = (props): ReactElement<HTMLElement> => {
             drawClock(canvas, ctx, hrs, mins, secs, 250, 250);
         }
         if (displayTimer) {
-            drawTimer(canvas, ctx, timerStartSecs, timerLeftSecs, displayClock);
+            drawTimer(canvas, ctx, timerStartMs, timerEndMs, timerNowMs, displayClock);
         }
-    }, [hrs, mins, secs, displayClock, timerStartSecs, timerLeftSecs, displayTimer]);
+    }, [hrs, mins, secs, displayClock,
+        timerStartMs, timerEndMs, timerNowMs, displayTimer]);
 
     return (
         <div>

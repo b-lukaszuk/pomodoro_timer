@@ -12,16 +12,15 @@ import './App.css';
 const App: React.FC = (): ReactElement<HTMLElement> => {
 
     // clock
-    // js is (pseudo)asynchronous, since e.g. drawing operations are blocking
-    // the main thread a bit, so correction is in order
-    const delayMs: number = 990; // for now it is hardcoded
+    const delayMs: number = 1000;
     const [hrs, setHrs]: [number, Function] = useState(getCurTime().hrs);
     const [mins, setMins]: [number, Function] = useState(getCurTime().mins);
     const [secs, setSecs]: [number, Function] = useState(getCurTime().secs);
     const [displClock, setDisplClock]: [boolean, Function] = useState(true);
     // timer
-    const [timerSecsStart, setTimerSecsStart]: [number, Function] = useState(0);
-    const [secsLeft, setSecsLeft]: [number, Function] = useState(0);
+    const [timerStartMs, setTimerStartMs]: [number, Function] = useState(0);
+    const [timerEndMs, setTimerEndMs]: [number, Function] = useState(0);
+    const [timerNowMs, setTimerNowMs]: [number, Function] = useState(0);
     const [displTimer, setDisplTimer]: [boolean, Function] = useState(false);
     const [timerInput, setTimerInput]: [string, Function] = useState("");
     const [isTimerOn, setIsTimerOn]: [boolean, Function] = useState(false);
@@ -58,8 +57,10 @@ const App: React.FC = (): ReactElement<HTMLElement> => {
 
     const startTimer = (): void => {
         if (isInputCorrect(timerInput)) {
-            setTimerSecsStart(parseInt(timerInput) * 60);
-            setSecsLeft(parseInt(timerInput) * 60);
+            let now: number = new Date().getTime();
+            setTimerStartMs(now);
+            setTimerNowMs(now);
+            setTimerEndMs(now + (parseInt(timerInput) * 60 * 1000));
             setIsTimerOn(true);
         } else {
             window.alert("Incorrect input. Change it and try again");
@@ -76,11 +77,11 @@ const App: React.FC = (): ReactElement<HTMLElement> => {
             setHrs(time.hrs);
             setMins(time.mins);
             setSecs(time.secs);
-            if (isTimerOn && secsLeft > 0) {
-                setSecsLeft((prevSecsLeft: number) => prevSecsLeft - 1);
-            } else {
+            if (isTimerOn) {
+                setTimerNowMs(new Date().getTime());
+            }
+            if (isTimerOn && timerEndMs <= new Date().getTime()) {
                 setIsTimerOn(false);
-                setTimerSecsStart(0);
             }
         }
 
@@ -90,20 +91,20 @@ const App: React.FC = (): ReactElement<HTMLElement> => {
         return () => {
             clearInterval(timerId1);
         }
-    }, [hrs, mins, secs, secsLeft, isTimerOn]);
+    }, [hrs, mins, secs, isTimerOn, timerStartMs, timerEndMs]);
 
     useEffect(() => {
         let soundToPlay: HTMLAudioElement = new Audio(
             "https://actions.google.com/sounds/v1/alarms/bugle_tune.ogg");
         if (!isTimerOn && alarmAtEnd &&
-            (timerSecsStart !== 0) && (secsLeft === 0)) {
+            (timerEndMs < new Date().getTime())) {
             soundToPlay.play();
         }
         const timerId2: NodeJS.Timeout = setTimeout(() => {
             soundToPlay.pause();
         }, 3000);
         return () => clearTimeout(timerId2);
-    }, [alarmAtEnd, isTimerOn, secsLeft, timerSecsStart]);
+    }, [alarmAtEnd, isTimerOn, timerEndMs]);
 
     useEffect(() => {
         document.title = "Pomodoro Timer";
@@ -136,12 +137,14 @@ const App: React.FC = (): ReactElement<HTMLElement> => {
             {
                 (displClock || displTimer) &&
                 <Canvas hrs={hrs} mins={mins} secs={secs} displayClock={displClock}
-                    timerStartSecs={timerSecsStart} timerLeftSecs={secsLeft}
+                    timerStartMs={timerStartMs} timerEndMs={timerEndMs}
+                    timerNowMs={timerNowMs}
                     displayTimer={displTimer} />
             }
             {!displClock && !displTimer &&
                 <h2>Nothing to display. Really?</h2>
             }
+            <p>The timer is not recommended when precise time measurement is required</p>
         </div>
     );
 }
