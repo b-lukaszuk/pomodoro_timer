@@ -14,7 +14,7 @@ const App: React.FC = (): ReactElement<HTMLElement> => {
     // clock
     // js is (pseudo)asynchronous, since e.g. drawing operations are blocking
     // the main thread a bit, so correction is in order
-    const delayMs: number = 983; // for now it is hardcoded
+    const delayMs: number = 990; // for now it is hardcoded
     const [hrs, setHrs]: [number, Function] = useState(getCurTime().hrs);
     const [mins, setMins]: [number, Function] = useState(getCurTime().mins);
     const [secs, setSecs]: [number, Function] = useState(getCurTime().secs);
@@ -84,11 +84,11 @@ const App: React.FC = (): ReactElement<HTMLElement> => {
             }
         }
 
-        let timerId1 = setTimeout(() => {
+        let timerId1: NodeJS.Timeout = setInterval(() => {
             updateTime();
         }, delayMs);
         return () => {
-            clearTimeout(timerId1);
+            clearInterval(timerId1);
         }
     }, [hrs, mins, secs, secsLeft, isTimerOn]);
 
@@ -99,7 +99,7 @@ const App: React.FC = (): ReactElement<HTMLElement> => {
             (timerSecsStart !== 0) && (secsLeft === 0)) {
             soundToPlay.play();
         }
-        const timerId2 = setTimeout(() => {
+        const timerId2: NodeJS.Timeout = setTimeout(() => {
             soundToPlay.pause();
         }, 3000);
         return () => clearTimeout(timerId2);
