@@ -14,7 +14,7 @@ const App: React.FC = (): ReactElement<HTMLElement> => {
     // clock
     // js is (pseudo)asynchronous, since e.g. drawing operations are blocking
     // the main thread a bit, so correction is in order
-    const delayMs: number = 980; // for now it is hardcoded
+    const delayMs: number = 983; // for now it is hardcoded
     const [hrs, setHrs]: [number, Function] = useState(getCurTime().hrs);
     const [mins, setMins]: [number, Function] = useState(getCurTime().mins);
     const [secs, setSecs]: [number, Function] = useState(getCurTime().secs);
