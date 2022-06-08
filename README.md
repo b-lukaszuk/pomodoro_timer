@@ -8,11 +8,11 @@ For practice I will write it with [React](https://pl.reactjs.org/) and [TS](http
 
 ## Caveats
 
-**The timer is not recommended when precise time measurement is required**
+**The clock/timer is not recommended when precise time measurement is required.**
 
-**The timer is not super precise** due to JS (pseudo)asynchronicity some lags are to be expected especially in a long run
+**The timer is not precise** due to JS (pseudo)asynchronicity some lags are to be expected especially in a long run.
 
-Still, to improve timer accuracy, the inner count down timer was replaced with startTimeMs, endTimeMs, nowTimeMs (that rely on new Date.getTime()) wich should calibrate timer at every update (every turn of inner setInterval).
+Still, **I've taken some steps to improve the timer accuracy**, the inner count down timer was replaced with startTimeMs, endTimeMs, nowTimeMs (they rely on new Date.getTime(), so on epoch time in ms) **this should calibrate timer** at every update (every turn of inner setInterval).
 
 ## App online
 
