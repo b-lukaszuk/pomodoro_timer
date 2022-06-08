@@ -24,6 +24,7 @@ function drawTimer(
             : formatTime(timeLeft.hrs, timeLeft.mins, timeLeft.secs);
     let timeLeftToTimeTotalInDeg: number =
         (360 * (timerNowMs - timerStartMs)) / (timerEndMs - timerStartMs);
+    let timeLeftSecsTo60: number = numsToDeg(60 - (timerEndMs - timerNowMs) / 1000, 60);
 
     drawArc(ctx, canv.height / 2, canv.width / 2, 240, 360, 10, colorMainPath);
     drawArc(
@@ -43,7 +44,7 @@ function drawTimer(
             canv.width / 2,
             200,
             0,
-            numsToDeg(60 - timeLeft.secs, 60),
+            timeLeftSecsTo60,
             "rgba(255, 0, 0, 0.3)"
         );
     }
