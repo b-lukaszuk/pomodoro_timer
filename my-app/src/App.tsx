@@ -35,6 +35,7 @@ const App: React.FC = (): ReactElement<HTMLElement> => {
     };
 
     const toggleAlarmAtEnd = (): void => {
+        if (!alarmAtEnd) { setTimerEndMs(0) };
         setAlarmAtEnd((prevState: boolean) => !prevState);
     }
 
@@ -96,9 +97,11 @@ const App: React.FC = (): ReactElement<HTMLElement> => {
     useEffect(() => {
         let soundToPlay: HTMLAudioElement = new Audio(
             "https://actions.google.com/sounds/v1/alarms/bugle_tune.ogg");
-        if (!isTimerOn && alarmAtEnd &&
-            (timerEndMs < new Date().getTime())) {
+        if (!isTimerOn && alarmAtEnd && timerEndMs !== 0) {
             soundToPlay.play();
+            setTimerStartMs(0);
+            setTimerEndMs(0);
+            setTimerNowMs(0);
         }
         const timerId2: NodeJS.Timeout = setTimeout(() => {
             soundToPlay.pause();
