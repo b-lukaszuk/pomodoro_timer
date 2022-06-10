@@ -68,7 +68,8 @@ const App: React.FC = (): ReactElement<HTMLElement> => {
         }
     }
 
-    const stopTimer = (): void => {
+    const stopAndResetTimer = (): void => {
+        setTimerEndMs(0);
         setIsTimerOn(false);
     }
 
@@ -132,8 +133,8 @@ const App: React.FC = (): ReactElement<HTMLElement> => {
                 onClick={toggleAlarmAtEnd} />
             <Button displText={"start timer"}
                 isDisplayed={displTimer && !isTimerOn} onClick={startTimer} />
-            <Button displText={"stop timer"}
-                isDisplayed={displTimer && isTimerOn} onClick={stopTimer} />
+            <Button displText={"stop and reset timer"}
+                isDisplayed={displTimer && isTimerOn} onClick={stopAndResetTimer} />
             <Canvas isDisplayed={displClock || displTimer}
                 hrs={hrs} mins={mins} secs={secs} displayClock={displClock}
                 timerStartMs={timerStartMs} timerEndMs={timerEndMs}
