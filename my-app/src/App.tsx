@@ -117,33 +117,28 @@ const App: React.FC = (): ReactElement<HTMLElement> => {
         <div className="App">
             <h1>Pomodoro Timer</h1>
             <Checkbox name="clock" displayedText={"show clock"}
-                checked={displClock} onClick={toggleDisplClock} />
+                checked={displClock} isDisplayed={true} onClick={toggleDisplClock} />
             <Checkbox name="timer" displayedText={"show timer"}
-                checked={displTimer} onClick={toggleDisplTimer} />
-            {displTimer && !isTimerOn &&
-                <TextInput name={"timerInput"}
-                    label={"Time in minutes (integer, 1-300)"}
-                    pattern={"[1-9][0-9]{0,3}"}
-                    placeholder="20"
-                    value={timerInput}
-                    changeHandler={handleTypingDigits}
-                />}
-            {displTimer && !isTimerOn &&
-                <Checkbox name="alarmSound" displayedText={"play alarm sound at end"}
-                    checked={alarmAtEnd} onClick={toggleAlarmAtEnd} />}
-            {displTimer && !isTimerOn &&
-                <Button displText={"start timer"}
-                    onClick={startTimer} />}
-            {displTimer && isTimerOn &&
-                <Button displText={"stop timer"}
-                    onClick={stopTimer} />}
-            {
-                (displClock || displTimer) &&
-                <Canvas hrs={hrs} mins={mins} secs={secs} displayClock={displClock}
-                    timerStartMs={timerStartMs} timerEndMs={timerEndMs}
-                    timerNowMs={timerNowMs}
-                    displayTimer={displTimer} />
-            }
+                checked={displTimer} isDisplayed={true} onClick={toggleDisplTimer} />
+            <TextInput name={"timerInput"}
+                isDisplayed={displTimer && !isTimerOn}
+                label={"Time in minutes (integer, 1-300)"}
+                pattern={"[1-9][0-9]{0,3}"}
+                placeholder="20"
+                value={timerInput}
+                changeHandler={handleTypingDigits} />
+            <Checkbox name="alarmSound" displayedText={"play alarm sound at end"}
+                checked={alarmAtEnd} isDisplayed={displTimer && !isTimerOn}
+                onClick={toggleAlarmAtEnd} />
+            <Button displText={"start timer"}
+                isDisplayed={displTimer && !isTimerOn} onClick={startTimer} />
+            <Button displText={"stop timer"}
+                isDisplayed={displTimer && isTimerOn} onClick={stopTimer} />
+            <Canvas isDisplayed={displClock || displTimer}
+                hrs={hrs} mins={mins} secs={secs} displayClock={displClock}
+                timerStartMs={timerStartMs} timerEndMs={timerEndMs}
+                timerNowMs={timerNowMs}
+                displayTimer={displTimer} />
             {!displClock && !displTimer &&
                 <h2>Nothing to display. Really?</h2>
             }

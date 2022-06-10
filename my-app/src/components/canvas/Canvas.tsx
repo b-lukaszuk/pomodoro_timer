@@ -4,9 +4,10 @@ import drawClock from "./draw/drawClock";
 import drawTimer from "./draw/drawTimer";
 import setCanvasDefaults from "./setCanvasDefaults";
 
-import "./Canvas.css"
+import "./Canvas.css";
 
 interface Props {
+    isDisplayed: boolean;
     hrs: number;
     mins: number;
     secs: number;
@@ -17,8 +18,11 @@ interface Props {
     displayTimer: boolean;
 }
 
-const Canvas: React.FC<Props> = (props): ReactElement<HTMLElement> => {
-    const canvasRef = useRef<HTMLCanvasElement | null>(null);
+const Canvas: React.FC<Props> = (props): ReactElement<HTMLElement> | null => {
+
+    const canvasRef: React.MutableRefObject<HTMLCanvasElement | null> =
+        useRef<HTMLCanvasElement | null>(null);
+    const isDisplayed: boolean = props.isDisplayed;
     const hrs: number = props.hrs;
     const mins: number = props.mins;
     const secs: number = props.secs;
@@ -43,16 +47,35 @@ const Canvas: React.FC<Props> = (props): ReactElement<HTMLElement> => {
             drawClock(canvas, ctx, hrs, mins, secs, 250, 250);
         }
         if (displayTimer) {
-            drawTimer(canvas, ctx, timerStartMs, timerEndMs, timerNowMs, displayClock);
+            drawTimer(
+                canvas,
+                ctx,
+                timerStartMs,
+                timerEndMs,
+                timerNowMs,
+                displayClock
+            );
         }
-    }, [hrs, mins, secs, displayClock,
-        timerStartMs, timerEndMs, timerNowMs, displayTimer]);
+    }, [
+        hrs,
+        mins,
+        secs,
+        displayClock,
+        timerStartMs,
+        timerEndMs,
+        timerNowMs,
+        displayTimer,
+    ]);
 
-    return (
-        <div>
-            <canvas width="500" height="500" ref={canvasRef} className="canvas" />
-        </div>
-    );
+    if (isDisplayed) {
+        return (
+            <div>
+                <canvas width="500" height="500" ref={canvasRef} className="canvas" />
+            </div>
+        );
+    } else {
+        return null;
+    }
 };
 
 export default Canvas;
