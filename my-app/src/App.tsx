@@ -140,9 +140,7 @@ const App: React.FC = (): ReactElement<HTMLElement> => {
                 timerStartMs={timerStartMs} timerEndMs={timerEndMs}
                 timerNowMs={timerNowMs}
                 displayTimer={displTimer} />
-            {!displClock && !displTimer &&
-                <h2>Nothing to display. Really?</h2>
-            }
+            {!displClock && !displTimer && <h2>Nothing to display. Really?</h2>}
             <p>This App is not meant for precise time (interval) measurement</p>
             <p>Use it at Your own risk</p>
         </div>
